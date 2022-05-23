@@ -1,29 +1,27 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        // controllo se utente é loggato
+        // dd(Auth::user()->get());
+        if (Auth::check() && Auth::user()->roles()->get()->first()->name === 'admin') {
+            return view('admin.home');
+        }
+        else {
+            return view('guest.home');
+        // abort('403');
+        }
     }
 }

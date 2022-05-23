@@ -6,3 +6,25 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons';
+
+ul {
+  &.pagination {
+    justify-content: center;
+  }
+}
+
+.card {
+  border: 2px solid $blue;
+  max-width: 700px;
+}
+
+#sidebarMenu {
+  li {
+    a {
+      &.active {
+        background-color: rgba($color: $blue, $alpha: .5);
+      }
+    }
+  }
+}

@@ -5,23 +5,24 @@
 @endsection
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            {{-- MESSAGGIO REDIRECT STATUS ERROR --}}
-            @if (session('statusError'))
+        {{-- MESSAGGIO REDIRECT STATUS --}}
+        @if (session('status'))
+            <div class="row">
                 <div class="col-6 mx-auto">
-                    <div class="alert alert-danger mx-auto">
-                        {{ session('statusError') }}
+                    <div class="alert alert-success">
+                        {{ session('status') }}
                     </div>
                 </div>
-                {{-- FINE MESSAGGIO REDIRECT STATUS ERROR --}}
-            @endif
-            <div class="col-12">
-                <h1 class="text-center h1">POSTS</h1>
             </div>
-
-            {{-- STAMPA DATI POST --}}
-            <div class="cards mx-auto d-flex flex-column align-items-center">
+        @endif
+        {{-- FINE MESSAGGIO REDIRECT STATUS --}}
+        <h2 class="w-100 text-center">All post of Category: {{ $categoryName }}</h2>
+        <div class="cards">
+            @if (count($posts) === 0)
+                <h4 class="w-75 mx-auto">Non sono presenti post in questa categoria.</h4>
+            @else
                 @foreach ($posts as $post)
+                    {{-- @php $categoryMany = $posts->items()[$key]; @endphp --}}
                     <div class="card w-75 mx-auto mb-3 border-2 rounded">
                         <div class="card-body">
                             {{-- HEADER --}}
@@ -43,10 +44,10 @@
                                         <ul class="list-group list-group-horizontal flex-wrap mx-auto">
                                             @foreach ($post->tag()->get() as $tag)
                                                 <li class="list-group-item border-0">
-                                                    <a class="text-decoration-none "
+                                                    <a class=" text-decoration-none"
                                                         href="{{ route('admin.tags.show', $tag) }}">
                                                         <span
-                                                            class="rounded-pill bg-secondary text-light h6 p-2 font-weight-bold text-decoration-none">
+                                                            class="rounded-pill bg-secondary text-light h6 p-2 font-weight-bold">
                                                             #{{ $tag->name }}
                                                         </span>
                                                     </a>
@@ -59,10 +60,10 @@
                         </div>
                     </div>
                 @endforeach
+            @endif
+            <div class="col-12">
+                {{ $posts->links() }}
             </div>
-            {{-- LINKS PAGINATE --}}
-            <div class="col-12">{{ $posts->links() }}</div>
-            {{-- FINESTAMPA DATI POST --}}
         </div>
     </div>
 @endsection
